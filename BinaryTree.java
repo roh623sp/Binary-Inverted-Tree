@@ -7,11 +7,11 @@ import javax.swing.tree.TreeNode;
 */
 public class BinaryTree{
   //fields
-  Node current;
+  Node root;
 
   //constructors
   BinaryTree(){
-    current = null;
+    root = null;
   }
   
   //methods
@@ -19,7 +19,7 @@ public class BinaryTree{
     written by Henry Kim
   */
   public void insert(int data){
-    current = insertRecursive(current, data);
+    root = insertRecursive(root, data);
   }
   
   /*recursive portion of insert method
@@ -49,7 +49,7 @@ public class BinaryTree{
   //remove method that deletes given data in a binary tree
   //written by Adrian Egasan
   public void delete(int data){
-    current = deleteRecursive(current, data);
+    root = deleteRecursive(root, data);
   }
 
   //checks if current node is null which means we reached a leaf node or empty tree
@@ -95,7 +95,7 @@ public class BinaryTree{
     written by Henry Kim
   */
   public boolean search(int data){
-    return searchRecursive(current, data);
+    return searchRecursive(root, data);
   }
   
   /*recursive portion of search method
@@ -122,7 +122,21 @@ public class BinaryTree{
     }
   }
   
-  //traverse
+  //traverse algorithm by Rohan Patel
+  public void traverse() {
+    preOrderTraversal(root);
+    System.out.println();
+  }
+
+  private void preOrderTraversal(Node node) {
+    if (node == null) {
+      return;
+    }
+
+    System.out.print(node.data + " ");
+    preOrderTraversal(node.left);
+    preOrderTraversal(node.right);
+  }
   
   /*Node class containing int for data, as well as pointers to left and right Nodes
     written by Henry Kim
@@ -143,26 +157,38 @@ public class BinaryTree{
   
   //driver func/test script
   public static void main(String[] args){
-    //vars
+    System.out.println("Creating new empty BinaryTree \"bt\"");
     BinaryTree bt = new BinaryTree();
     
-    //test methods
-    
     //insert test
+    System.out.println("Inserting values to bt:");
+    System.out.println("\t5 7 0 -3 9 15 45 -27");
     bt.insert(5);
-    bt.insert(6);
-    bt.insert(4);
-    
-    System.out.println(bt.current.data);
-    System.out.println(bt.current.left.data);
-    System.out.println(bt.current.right.data);
+    bt.insert(7);
+    bt.insert(0);
+    bt.insert(-3);
+    bt.insert(9);
+    bt.insert(15);
+    bt.insert(45);
+    bt.insert(-27);
+
+    //traverse test
+    System.out.println("Traversing bt...");
+    bt.traverse();
     
     //search test
-    System.out.println(bt.search(3));
-    System.out.println(bt.search(4));
+    System.out.println("Searching if 1 exists in bt");
+    System.out.println("\t" + bt.search(1));
+    System.out.println("Searching if 15 exists in bt");
+    System.out.println("\t" + bt.search(15));
     
     //delete test
-    bt.delete(4);
-    System.out.println(bt.search(4));
+    System.out.println("Deleting 15 from bt");
+    bt.delete(15);
+    System.out.println("Searching if 15 exists in bt");
+    System.out.println("\t" + bt.search(15));
+
+    System.out.println("Traversing bt");
+    bt.traverse();
   }
 }
