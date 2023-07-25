@@ -4,13 +4,16 @@ import java.util.*;
 /*BinaryTree class
   Implementation of BinaryTree
 */
+
+import javax.swing.tree.TreeNode;
+
 public class BinaryTree{
   //fields
-  Node root;
+  Node current;
 
   //constructors
 	BinaryTree(){
-		root = null;
+		current = null;
 	}
 	
   //methods
@@ -18,11 +21,11 @@ public class BinaryTree{
 		written by Henry Kim
   */
 	public void insert(int data){
-		root = insertRecursive(root, data);
+		current = insertRecursive(current, data);
 	}
 	
 	/*recursive portion of insert method
-		starting from root, check if current node is null
+		starting from current, check if current node is null
 		if null add new node with data
 		otherwise check if data goes to left or right of current node
 		written by Henry Kim
@@ -45,23 +48,65 @@ public class BinaryTree{
 		return current;
 	}
 	
-  //remove
-	
-	
+    //remove method that deletes given data in a binary tree
+    //written by Adrian Egasan
+    public void delete(int data){
+		current = deleteRecursive(current, data);
+	}
+
+    //checks if current node is null which means we reached a leaf node or empty tree
+    //if the delete's data is less than node's data go left, if greater go right
+    //checks if only one child then returns that, if both available find inorder successor
+    //once found the data is deleted from the binary tree
+    //written by Adrian Egasan
+	public static Node deleteRecursive(Node current, int data) {
+
+        if (current == null)
+            return current;
+
+        if (data < (int) current.data) {
+            current.left = deleteRecursive(current.left, data);
+
+        } else if (data > (int) current.data) {
+                        current.right = deleteRecursive(current.right, data); 
+
+        } else {
+            if (current.left == null) {
+                return current.right;
+            } else if (current.right == null)
+                return current.left;
+
+            current.data = getSuccessor(current.right);
+            current.right = deleteRecursive(current.right, (int) current.data);
+        }
+
+        return current;
+
+    }
+
+    public static int getSuccessor(Node current) {
+        int min = (int) current.data;
+        while (current.left != null) {
+            min = (int) current.left.data;
+            current = current.left;
+        }
+        return min;
+    }
+
   /*search method that recursively searches for data in binary tree
 		written by Henry Kim
   */
 	public boolean search(int data){
-		return searchRecursive(root, data);
+		return searchRecursive(current, data);
 	}
 	
 	/*recursive portion of search method
-		starting from root, check if current node is null
+		starting from current, check if current node is null
 		if null return false
 		otherwise check if data may exist left or right of current node
 		if data exists return true
 		written by Henry Kim
-  */
+    */
 	private boolean searchRecursive(Node current, int data){
 		if (current == null){
 			return false;
@@ -109,12 +154,16 @@ public class BinaryTree{
 		bt.insert(6);
 		bt.insert(4);
 		
-		System.out.println(bt.root.data);
-		System.out.println(bt.root.left.data);
-		System.out.println(bt.root.right.data);
+		System.out.println(bt.current.data);
+		System.out.println(bt.current.left.data);
+		System.out.println(bt.current.right.data);
 		
 		//search test
 		System.out.println(bt.search(3));
 		System.out.println(bt.search(4));
-  }
+
+        //delete test
+        bt.delete(4);
+        System.out.println(bt.search(4));
+      }
 }
