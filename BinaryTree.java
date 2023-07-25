@@ -78,7 +78,20 @@ public class BinaryTree{
 			return searchRecursive(current.right, data);
 		}
 	}
-  //traverse
+  //traverse algorithm by Rohan Patel
+	  public void traverse() {
+    preOrderTraversal(root);
+  }
+
+  private void preOrderTraversal(Node node) {
+    if (node == null) {
+      return;
+    }
+
+    System.out.print(node.data + " ");
+    preOrderTraversal(node.left);
+    preOrderTraversal(node.right);
+  }
 
   /*Node class containing int for data, as well as pointers to left and right Nodes
 		written by Henry Kim
